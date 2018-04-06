@@ -16,8 +16,14 @@ PROXY_URL="socks4://171.217.127.112:1080"
 PROXY_URL="socks5://116.196.100.186:9000"
 PROXY_URL="socks5://172.31.47.87:8388"
 PROXY_URL="socks5://180.76.105.251:8388"
+PROXY_URL=
 SOCKET_TIMEOUT=120
-command="$CUR/youtube-dl --write-sub --extract-audio --continue --audio-format wav --audio-quality 0 --all-subs --socket-timeout ${SOCKET_TIMEOUT} --proxy ${PROXY_URL} ${url}"
+
+command="$CUR/youtube-dl --write-sub --extract-audio --continue --audio-format wav --audio-quality 0 --all-subs"
+if [[ ! -z "$PROXY_URL" ]]; then
+    command="${command} --socket-timeout ${SOCKET_TIMEOUT} --proxy ${PROXY_URL}"
+fi
+command="${command} ${url}"
 if [[ -z "$output" ]]; then
     $command
 else
